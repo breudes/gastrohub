@@ -1,5 +1,6 @@
 package com.breudes.gastrohub.model;
 
+import com.breudes.gastrohub.dto.UserDTO;
 import com.breudes.gastrohub.model.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -70,6 +71,16 @@ public class User implements UserDetails {
         this.owner = owner;
     }
 
+    public User(UserDTO userDTO){
+        this.name = userDTO.getName();
+        this.preferredName = userDTO.getPreferredName();
+        this.email = userDTO.getEmail();
+        this.username = userDTO.getUsername();
+        this.userRole = userDTO.getUserRole();
+        this.lastUpdateDate = new Date();
+        this.active = true;
+    }
+
     public Long getId() {
         return id;
     }
@@ -134,7 +145,7 @@ public class User implements UserDetails {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public Boolean getActive() {
+    public Boolean isActive() {
         return active;
     }
 
