@@ -36,6 +36,8 @@ public class UserService {
 
     public User createUser(UserDTO userDTO) {
         User newUser = new User(userDTO);
+        newUser.setLastUpdateDate(new Date());
+        newUser.setActive(true);
         return userRepository.save(newUser);
     }
 
@@ -59,34 +61,20 @@ public class UserService {
         }
     }
 
-    public User deactivateUser(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()){
-            if (user.get().isActive()) {
-                user.get().setActive(false);
-                return userRepository.save(user.get());
-            } else {
-                throw new IllegalStateException("User is already inactive.");
-            }
-        }
-        return null;
-    }
-
     public ResponseEntity<String> changePassword(Long userId, String oldPassword, String newPassword) {
         Optional<User> user = userRepository.findById(userId);
         if(user.isPresent()){
             User foundUser = user.get();
+            if(!foundUser.isActive()){
+                return ResponseEntity.status(400).body("User not active.");
+            }
             if (!passwordEncoder.matches(oldPassword, foundUser.getPassword())) {
                 throw new IllegalArgumentException("Old password is incorrect.");
             }
             foundUser.setPassword(passwordEncoder.encode(newPassword));
             foundUser.setLastUpdateDate(new Date());
-            foundUser = userRepository.save(foundUser);
-            if(foundUser.isActive()){
-                return ResponseEntity.status(200).body("Password successfully updated.");
-            } else {
-                return ResponseEntity.status(400).body("User not active.");
-            }
+            userRepository.save(foundUser);
+            return ResponseEntity.status(200).body("Password successfully updated.");
         } else {
             return ResponseEntity.status(404).body("User not found.");
         }
@@ -105,7 +93,7 @@ public class UserService {
             if(!foundUser.isActive()){
                 return ResponseEntity.status(200).body("User successfully deleted.");
             }else{
-                return ResponseEntity.status(400).body("Could not delete the user.");
+                return ResponseEntity.status(400).body("User already deleted.");
             }
         } else {
             return ResponseEntity.status(404).body("User not found.");
