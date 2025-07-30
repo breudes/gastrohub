@@ -1,6 +1,7 @@
 package com.breudes.gastrohub.dto;
 
 import com.breudes.gastrohub.model.Address;
+import com.breudes.gastrohub.model.User;
 import com.breudes.gastrohub.model.enums.UserRole;
 
 public class UserDTO {
@@ -23,6 +24,15 @@ public class UserDTO {
         this.password = password;
         this.userRole = userRole;
         this.address = address;
+    }
+
+    public UserDTO(User user) {
+        this.name = user.getName();
+        this.preferredName = user.getPreferredName();
+        this.email = user.getEmail();
+        this.username = user.getUsername();
+        this.userRole = user.getUserRole();
+        this.address = user.getAddress();
     }
 
     public String getName() {

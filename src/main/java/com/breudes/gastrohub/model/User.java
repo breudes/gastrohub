@@ -76,6 +76,7 @@ public class User implements UserDetails {
         this.preferredName = userDTO.getPreferredName();
         this.email = userDTO.getEmail();
         this.username = userDTO.getUsername();
+        this.password = userDTO.getPassword();
         this.userRole = userDTO.getUserRole();
         this.lastUpdateDate = new Date();
         this.active = true;
