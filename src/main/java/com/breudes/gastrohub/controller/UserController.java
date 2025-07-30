@@ -9,22 +9,24 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private UserService userService;
 
     @GetMapping
-    public List<User> listAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> listAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(UserDTO::new)
+                .collect(Collectors.toList());
     }
 
     @PostMapping
@@ -43,8 +45,7 @@ public class UserController {
                         .body("Error: Username is already registered.");
             }
             // Save the new user
-            User newUser = new User(user);
-            User savedUser = userRepository.save(newUser);
+            User savedUser = userService.createUser(user);
 
             // Return response message based on the request status
             if (savedUser.getId() != null) {
@@ -61,38 +62,38 @@ public class UserController {
         return null;
     }
 
-    // Get user by ID
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.map(ResponseEntity::ok)
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+        return userRepository.findById(id)
+                .map(UserDTO::new)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Get user by email
     @GetMapping("/find-by-email")
-    public ResponseEntity<User> getUserByEmail(@RequestParam String email) {
+    public ResponseEntity<UserDTO> getUserByEmail(@RequestParam String email) {
         return userRepository.findByEmail(email)
+                .map(UserDTO::new)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Get user by username (login)
     @GetMapping("/find-by-username")
-    public ResponseEntity<User> getUserByUsername(@RequestParam String username) {
+    public ResponseEntity<UserDTO> getUserByUsername(@RequestParam String username) {
         return userRepository.findByUsername(username)
+                .map(UserDTO::new)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO){
+        return userService.updateUser(id, userDTO);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         return userService.deleteUser(id);
-    }
-
-    @PutMapping("/id")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO){
-        return userService.updateUser(id, userDTO);
     }
 
     @PutMapping("/change-password/{id}")
