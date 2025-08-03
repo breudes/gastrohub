@@ -91,16 +91,16 @@ public class UserController {
         return userService.updateUser(id, userDTO);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
-        return userService.deleteUser(id);
-    }
-
-    @PutMapping("/change-password/{id}")
+    @PatchMapping
     public ResponseEntity<String> changePassword(
             @PathVariable Long id,
             @RequestParam String oldPassword,
             @RequestParam String newPassword) {
         return userService.changePassword(id, oldPassword, newPassword);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        return userService.deleteUser(id);
     }
 }
