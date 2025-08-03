@@ -10,14 +10,14 @@ public class Client implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true, length = 11, nullable = false)
     private String document;
 
     private Boolean active;
 
     @OneToOne
-    @MapsId
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "id_user", unique = true)
     private User user;
 
     public Client() {

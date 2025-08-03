@@ -21,8 +21,7 @@ public class Owner implements Serializable {
     private List<Restaurant> restaurants = new ArrayList<>();
 
     @OneToOne
-    @MapsId
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "id_user", unique = true)
     private User user;
 
     public Owner() {
