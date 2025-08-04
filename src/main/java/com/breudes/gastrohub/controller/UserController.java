@@ -91,7 +91,7 @@ public class UserController {
         return userService.updateUser(id, userDTO);
     }
 
-    @PatchMapping
+    @PatchMapping("/{id}")
     public ResponseEntity<String> changePassword(
             @PathVariable Long id,
             @RequestParam String oldPassword,

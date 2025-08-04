@@ -27,7 +27,8 @@ public class SecurityConfigurations {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                        .requestMatchers("/users/update-user/{id}", "/users/change-password/{id}").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/users").permitAll()
+                        .requestMatchers("/users/update-user/{id}").authenticated()
                         .requestMatchers("/users/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
