@@ -87,7 +87,7 @@ When logging in, the user receives a token that must be sent in the Authorizatio
 Authorization: Bearer <token>
 ```
 
-## Author
+## ✏️Author
 - Brenda Alexandra de Souza Silva
 - LinkedIn/Github: breudes
 
