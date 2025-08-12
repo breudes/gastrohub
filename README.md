@@ -91,6 +91,9 @@ Authorization: Bearer <token>
 - Brenda Alexandra de Souza Silva
 - LinkedIn/Github: breudes
 
+## 🔍Observation
+May appear commits made by the user brendaaluralatam, which is my professional profile on Github, I still can not unassociate then occurs commits with the name of my professional github profile, but everything done in this project was done only by me.
+
 ## 📜 License
 
 This project is licensed under the MIT License. Feel free to use and modify it.
