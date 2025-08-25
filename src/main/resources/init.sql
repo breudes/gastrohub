@@ -1,3 +1,29 @@
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    preferred_name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    username VARCHAR(50) UNIQUE,
+    password VARCHAR(255),
+    user_role VARCHAR(20),
+    address TEXT,
+    last_update_date TIMESTAMP,
+    active BOOLEAN
+);
+
+CREATE TABLE IF NOT EXISTS clients (
+    id SERIAL PRIMARY KEY,
+    id_user INT REFERENCES users(id),
+    active BOOLEAN,
+    document VARCHAR(20)
+);
+
+CREATE TABLE IF NOT EXISTS owners (
+    id SERIAL PRIMARY KEY,
+    id_user INT REFERENCES users(id),
+    active BOOLEAN,
+    document VARCHAR(20)
+);
 -- Inserting test users
 INSERT INTO users (name, preferred_name, email, username, password, user_role, address, last_update_date, active)
 VALUES
