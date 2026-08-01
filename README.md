@@ -87,6 +87,9 @@ When logging in, the user receives a token that must be sent in the Authorizatio
 Authorization: Bearer <token>
 ```
 
+## Video - Demonstration
+https://youtu.be/rys8oYG2-Zo
+
 ## ✏️Author
 - Brenda Alexandra de Souza Silva
 - LinkedIn/Github: breudes
